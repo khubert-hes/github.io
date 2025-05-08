@@ -1,0 +1,669 @@
+/* Global Styles */
+:root {
+    --primary-color: #4EB0BD; /* Teal */
+    --secondary-color: #72ba83; /* Green, fern? */
+    --accent-color: #FF7F50;
+    --text-dark: #000000;
+    --text-light: #FFFFFF;
+    --background-light: #FFFFFF;
+    --background-medium: #F5F8FA;
+    --background-dark: #004B80; /* Dark Blue "cerulean" */
+    --border-light: #D9D9D9;
+    --gradient-border: linear-gradient(to bottom, #72ba83, #4EB0BD);
+    --gradient-background: linear-gradient(to right, #4EB0BD, #72ba83);
+    --gradient-background-soft: linear-gradient(120deg, #6FC3CF 65%, #72ba83 100%); /* Softer gradient, more teal, fountain / fern */
+
+    --font-primary: 'Roboto', sans-serif;
+    --font-secondary: 'Montserrat', sans-serif;
+
+    --box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Animation Base Styles & Triggers --- */
+/* Base state for elements that will be animated */
+.animate-on-scroll { opacity: 0; transition: opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); }
+.fade-in { transform: translateY(20px); }
+.fade-in-up { transform: translateY(30px); }
+.slide-in-left { transform: translateX(-40px); }
+.slide-in-right { transform: translateX(40px); }
+.slide-in-bottom { transform: translateY(40px); }
+.scale-in { transform: scale(0.95); }
+
+/* The state when the element becomes visible */
+.animate-on-scroll.is-visible { opacity: 1; transform: translate(0, 0) scale(1); }
+
+/* --- Staggered List Item Animation --- */
+/* Initial state for list items within a container that will be animated */
+.platform-text .checklist-v6 li {
+    opacity: 0;
+    transform: translateY(30px); /* Corresponds to fade-in-up */
+    transition: opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Final state for list items when the PARENT container becomes visible */
+.platform-text.is-visible .checklist-v6 li {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Apply delays to the list items based on their classes */
+.platform-text.is-visible .checklist-v6 li.delay-1 { transition-delay: 0.15s; }
+.platform-text.is-visible .checklist-v6 li.delay-2 { transition-delay: 0.30s; }
+.platform-text.is-visible .checklist-v6 li.delay-3 { transition-delay: 0.45s; }
+.platform-text.is-visible .checklist-v6 li.delay-4 { transition-delay: 0.60s; } /* Adjusted delay slightly */
+
+
+/* General Animation Delays (still needed for other elements) */
+.delay-1 { transition-delay: 0.15s; } /* Note: This might conflict if applied directly to the LI now, but needed elsewhere */
+.delay-2 { transition-delay: 0.3s; }
+.delay-3 { transition-delay: 0.45s; }
+
+/* Subtle background gradient animation (Optional - can be uncommented in body style) */
+@keyframes gradientBGAnim {
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-secondary);
+    color: var(--text-dark);
+    background-color: var(--background-light);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    margin-top: 0;
+}
+
+h1 { font-size: 42px; line-height: 1.2; }
+h2 { font-size: 22px; line-height: 1.2; font-weight: 700; } /* Hero subtitle */
+h3 { font-size: 28px; line-height: 1.2; text-align: center; margin-bottom: 15px; } /* Section titles */
+h4 { font-size: 20px; line-height: 1.2; margin-bottom: 10px; } /* Card titles, Testimonial title */
+h5 { font-size: 18px; line-height: 1.2; margin-bottom: 10px; } /* Footer headings */
+
+p {
+    margin-bottom: 1em;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--text-light);
+}
+
+.btn-primary:hover {
+    background-color: #E56A40; /* Darker coral */
+}
+
+.subtitle {
+    font-size: 16px;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+    line-height: 1.625;
+}
+
+/* Header */
+header {
+    background-color: var(--background-light);
+    padding: 15px 0;
+    box-shadow: var(--box-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* New wrapper for nav and button */
+.nav-button-group {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Match nav ul gap */
+}
+
+header .logo {
+    height: 40px; /* Adjust as needed */
+}
+
+header nav ul {
+    display: flex;
+    gap: 30px;
+}
+
+header nav ul li a {
+    font-family: var(--font-primary);
+    font-size: 18px;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+header nav ul li a:hover {
+    color: var(--primary-color);
+}
+
+header nav ul li.dropdown img {
+    width: 12px;
+    height: auto;
+}
+
+/* Hero Section */
+.hero {
+    background-image: url('images/hero-background.png');
+    background-size: cover;
+    background-position: center;
+    color: var(--text-light);
+    padding: 100px 0;
+    text-align: left;
+}
+
+.hero-content {
+    max-width: 600px;
+    margin-left: 10%;
+}
+
+.hero h1 {
+    margin-bottom: 15px;
+}
+
+.hero h2 {
+    margin-bottom: 20px;
+    font-weight: 700; /* Explicitly set from Figma */
+}
+
+.hero p {
+    font-size: 16px;
+    line-height: 1.625;
+    margin-bottom: 30px;
+}
+
+/* Features Section */
+.features {
+    padding: 80px 0;
+    background-color: var(--background-medium);
+}
+
+.feature-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.card {
+    background-color: var(--background-light);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    text-align: left;
+}
+
+.card img {
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.card h4 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 16px;
+    line-height: 1.625;
+}
+
+/* Platform Section */
+.platform {
+    padding: 80px 0;
+    background-color: var(--background-light);
+}
+
+.platform-container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.platform-text {
+    flex: 1;
+}
+
+.platform-text h3 {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.platform-text p {
+    font-size: 16px;
+    line-height: 1.625;
+    margin-bottom: 30px;
+}
+
+.platform-text ul {
+    margin: 0;
+    padding: 0;
+}
+
+.platform-text ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--background-dark);
+    margin-bottom: 15px;
+}
+
+.platform-text ul li img {
+    width: 24px;
+    height: 24px;
+}
+
+.platform-image {
+    flex: 1;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    border: 6px solid transparent; /* Further Reduced Placeholder for gradient */
+    border-image: var(--gradient-border) 1;
+    overflow: hidden; /* Ensure icon stays within bounds */
+}
+
+.platform-image > img:first-child { /* Target the main iMac image */
+     border-radius: 0; /* Reset radius if needed */
+     box-shadow: none; /* Reset shadow if needed */
+     border: none; /* Reset border if needed */
+}
+
+
+.platform-image .chart-icon {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 60px; /* Adjust size as needed */
+    background-color: var(--background-light); /* Match card background */
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: var(--box-shadow);
+}
+
+/* Logos Section */
+.logos {
+    padding: 60px 0;
+    background-color: var(--background-medium);
+}
+
+.logos h4 {
+    font-size: 28px; /* Match other section titles */
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo-grid {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.logo-grid span {
+    font-size: 16px;
+    color: #888; /* Placeholder style */
+    padding: 10px 20px;
+    background-color: var(--border-light);
+    border-radius: 4px;
+}
+
+/* Testimonial Section - v3 Superlist Card Style */
+.testimonial-card-section {
+    background-color: var(--background-medium); /* alt-background */
+}
+
+.testimonial-card-section .section-title {
+    margin-bottom: 40px; /* Consistent with other titles */
+}
+
+.testimonial-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.testimonial-card-inner {
+    background-color: var(--background-light);
+    padding: 30px; /* Slightly reduced padding */
+    border-radius: 12px; /* Softer radius */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08); /* --shadow-medium from v3 */
+    position: relative;
+    text-align: center;
+    border: 1px solid var(--border-light); /* Soft border */
+}
+
+.testimonial-quote-mark {
+    width: 30px;
+    height: auto;
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    opacity: 0.15;
+    /* color: var(--primary-color); // Already an SVG */
+}
+
+.testimonial-text-content { /* New class for the text itself */
+    font-size: 16px; /* More standard text size */
+    line-height: 1.7;
+    color: var(--text-dark); /* Match general text color */
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-light);
+}
+
+.author-info {
+    text-align: left;
+}
+
+.author-name {
+    display: block;
+    font-weight: 700;
+    font-family: var(--font-primary);
+    color: var(--text-dark); /* Match general text color */
+    font-size: 16px;
+}
+
+.author-title {
+    font-size: 14px;
+    color: #5A6A7B; /* Medium grey from v3 */
+}
+
+
+/* Contact Section */
+.contact {
+    padding: 40px 0; /* Drastically reduced padding */
+    background: var(--gradient-background-soft); /* Use softer gradient */
+    background-size: 300% 300%; /* Increased size for more noticeable animation */
+    animation: gradientBGAnim 15s ease infinite; /* Apply animation */
+}
+
+.contact .container {
+    background-color: var(--background-light);
+    padding: 30px; /* Drastically reduced padding */
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    max-width: 800px; /* Limit form width */
+}
+
+.contact h3 {
+    margin-bottom: 15px;
+}
+
+.contact .subtitle {
+    margin-bottom: 40px;
+}
+
+.contact form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    flex-basis: 100%;
+}
+
+.form-group label {
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group textarea {
+    padding: 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: var(--background-medium);
+    font-family: var(--font-secondary);
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.contact form button {
+    align-self: center;
+    margin-top: 10px;
+}
+
+/* Footer - Updated for v2 - using v6 structure - Further Reduced Padding */
+.site-footer-v6 {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    padding: 20px 0 0; /* Further reduced top padding */
+    font-size: 0.9rem;
+}
+
+.footer-grid-v6 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px; /* Further reduced gap */
+    padding-bottom: 20px; /* Further reduced bottom padding */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-col {
+    /* Styles for individual columns if needed */
+}
+
+.footer-brand .footer-logo {
+    max-width: 180px;
+    margin-bottom: 15px;
+}
+
+.footer-brand p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 15px;
+}
+
+.footer-col h5 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.9;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+    opacity: 1;
+}
+.footer-col p {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    opacity: 0.7;
+    margin-bottom: 10px;
+}
+
+.footer-social {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.footer-social a img {
+    width: 24px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.footer-social a img:hover {
+    opacity: 1;
+}
+
+.footer-bottom-v6 {
+    text-align: center;
+    padding: 10px 0; /* Further reduced padding */
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* Section Padding for consistency */
+.section-padding {
+    padding: 80px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    header nav ul {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .platform-container {
+        flex-direction: column;
+    }
+    .testimonial-card-grid { /* Ensure cards stack on smaller screens */
+        grid-template-columns: 1fr;
+    }
+    .form-row {
+        flex-direction: column;
+    }
+    .footer-grid-v6 { /* Updated class */
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        text-align: center;
+    }
+    .footer-brand, .footer-social { /* Updated classes */
+        justify-self: center;
+    }
+     .footer-social {
+        justify-content: center; /* Ensure social icons are centered */
+    }
+}
+
+@media (max-width: 768px) {
+    h1 { font-size: 36px; }
+    h3 { font-size: 24px; }
+    .hero { padding: 60px 0; }
+    .features, .platform, .logos, .testimonial, .contact, .section-padding { padding: 60px 0; } /* Added .section-padding */
+    .feature-cards { grid-template-columns: 1fr; } /* Stack cards */
+    .logo-grid { justify-content: center; }
+    .footer-grid-v6 { /* Updated class */
+        grid-template-columns: 1fr; /* Stack footer columns */
+        text-align: center;
+    }
+     .footer-brand, .footer-col { /* Updated classes */
+        margin-bottom: 20px;
+    }
+    .footer-social {
+        justify-content: center; /* Ensure social icons are centered */
+    }
+}
+
+@media (max-width: 576px) {
+    header .logo { height: 30px; }
+    header nav ul { gap: 15px; }
+    header nav ul li a { font-size: 16px; }
+    .btn { font-size: 16px; padding: 8px 20px; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 18px; }
+    h3 { font-size: 22px; }
+    h4 { font-size: 18px; }
+    .hero { padding: 40px 0; }
+    .hero p { font-size: 14px; }
+    .card p, .platform-text p, .testimonial-text p, .footer-contact p, .footer-links ul li a { font-size: 14px; }
+    .testimonial-text p { font-size: 18px; } /* Keep testimonial quote larger */
+    .testimonial-text p strong { font-size: 16px; }
+    .contact .container { padding: 30px; }
+    .form-group label, .form-group input, .form-group textarea { font-size: 14px; }
+}
